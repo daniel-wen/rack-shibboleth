@@ -22,6 +22,7 @@ module Rack
         assertion = shib_response.decode private_key
         puts 'assertion: ' + assertion.nil?.to_s
         if assertion
+          puts 'does not get past assertion'
           resolver = Resolver.new assertion, opts
           resolver.valid? ? resolver : nil
         end

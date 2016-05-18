@@ -35,8 +35,8 @@ module Rack
         # This is the public key which encrypted the first CipherValue
         cert = @doc.find_first(
             '//xenc:EncryptedData//ds:X509Certificate', [DS, XENC])
-        puts 'cert: ' + cert.nil?.to_s
         if cert.nil?
+          puts 'cert is nil'
           return @doc.find_first('//saml2:Assertion', [SAML2])
         end
         c1, c2 = @doc.find('//xenc:CipherValue', XENC).map(&:content)
@@ -86,6 +86,7 @@ module Rack
           puts 'debug end'
           dec
         end
+        puts 'signature invalid'
       end
 
       private

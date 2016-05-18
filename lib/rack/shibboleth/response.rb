@@ -82,11 +82,16 @@ module Rack
         # Must check that there is a signature listed and that the signature is
         # valid for the enclosing document.
         sig = dec.find_first('//ds:Signature', DS)
+        if sig
+          puts 'signature present'
+          if valid_hashes?(sig)
+            puts 'signature hashes valid'
+          end
+        end
         if sig && valid_hashes?(sig) && valid_signature?(sig)
           puts 'debug end'
           dec
         end
-        puts 'signature invalid'
       end
 
       private

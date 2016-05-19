@@ -78,7 +78,7 @@ module Rack
         padding = out.bytes.to_a.last
 
         dec = LibXML::XML::Document.string(out[0..-(padding + 1)])
-        puts dec.to_s
+        puts dec.to_s.gsub("\n", '')
 
         # Must check that there is a signature listed and that the signature is
         # valid for the enclosing document.

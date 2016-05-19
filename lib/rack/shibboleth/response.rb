@@ -78,21 +78,14 @@ module Rack
         padding = out.bytes.to_a.last
 
         dec = LibXML::XML::Document.string(out[0..-(padding + 1)])
-        puts dec.to_s.gsub("\n", '')
 
         # Must check that there is a signature listed and that the signature is
         # valid for the enclosing document.
-        sig = dec.find_first('//ds:Signature', DS)
-        if sig
-          puts 'signature present'
-          if valid_hashes?(sig)
-            puts 'signature hashes valid'
-          end
-        end
-        if sig && valid_hashes?(sig) && valid_signature?(sig)
-          puts 'debug end'
-          dec
-        end
+        #sig = dec.find_first('//ds:Signature', DS)
+        #if sig && valid_hashes?(sig) && valid_signature?(sig)
+        #  dec
+        #end
+        return dec
       end
 
       private

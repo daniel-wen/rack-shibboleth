@@ -18,11 +18,9 @@ module Rack
         return nil if resp.nil?
         xml = Base64.decode64 resp
         shib_response = Shibboleth::Response.new xml
-        puts 'shib_response: ' + shib_response.nil?.to_s
+
         assertion = shib_response.decode private_key
-        puts 'assertion: ' + assertion.nil?.to_s
         if assertion
-          puts 'does not get past assertion'
           resolver = Resolver.new assertion, opts
           resolver.valid? ? resolver : nil
         end

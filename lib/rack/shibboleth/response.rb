@@ -36,7 +36,6 @@ module Rack
         cert = @doc.find_first(
             '//xenc:EncryptedData//ds:X509Certificate', [DS, XENC])
         if cert.nil?
-          puts 'cert is nil'
           return @doc.find_first('//saml2:Assertion', [SAML2])
         end
         c1, c2 = @doc.find('//xenc:CipherValue', XENC).map(&:content)
@@ -44,7 +43,6 @@ module Rack
         cert = OpenSSL::X509::Certificate.new(Base64.decode64(cert.content))
         return nil unless cert.check_private_key(private_key)
 
-        puts 'passes private key check'
         # Generate the key used for the cipher below via the RSA::OAEP algo
         rsak = RSA::Key.new private_key.n, private_key.d
         v1s  = Base64.decode64(c1)
@@ -52,7 +50,6 @@ module Rack
         begin
           cipherkey = RSA::OAEP.decode rsak, v1s
         rescue RSA::OAEP::DecodeError
-          puts 'decode error'
           return nil
         end
 
